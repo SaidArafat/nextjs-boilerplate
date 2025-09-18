@@ -1,0 +1,10 @@
+# Ignore artifacts:
+coverage
+node_modules
+dist
+build
+.next
+*.min.js
+*.svg
+*.md
+*.yml
