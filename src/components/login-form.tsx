@@ -9,7 +9,7 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { useLogin } from '@/hooks/auth/login'
+import { useLogin } from '@/hooks/auth/use-login'
 import { createLoginSchema, type LoginForm } from '@/lib/definitions/auth/login'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Eye, EyeOff, Loader2 } from 'lucide-react'

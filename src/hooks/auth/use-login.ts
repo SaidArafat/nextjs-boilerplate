@@ -27,8 +27,8 @@ export function useLogin() {
       })
       // Check for successful authentication
       if (result?.ok && !result?.error) {
-        toast.success(t('login-successful'))
         router.push('/home')
+        toast.success(t('login-successful'))
         return { ok: true }
       } else {
         // Handle authentication failure
