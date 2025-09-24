@@ -10,16 +10,18 @@ export default getRequestConfig(async ({ requestLocale }) => {
     : routing.defaultLocale
 
   // Load messages with proper namespace structure
-  const [common, landing] = await Promise.all([
+  const [common, landing, auth] = await Promise.all([
     import(`../../messages/${locale}/common.json`),
-    import(`../../messages/${locale}/landing.json`)
+    import(`../../messages/${locale}/landing.json`),
+    import(`../../messages/${locale}/auth.json`)
   ])
 
   return {
     locale,
     messages: {
       common: common.default,
-      landing: landing.default
+      landing: landing.default,
+      auth: auth.default
     }
   }
 })

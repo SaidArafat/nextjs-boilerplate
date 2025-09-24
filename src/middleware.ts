@@ -1,40 +1,58 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { auth } from '@/auth'
+import { NextResponse, type NextRequest } from 'next/server'
 
-// const PUBLIC_PAGES = ['/login', '/register', '/images', '/favicon.ico']
+const publicPages = [
+  'sign-up',
+  '/login',
+  '/images',
+  '/favicon.ico',
+  '/forgot-password',
+  '/reset-password'
+]
 
 export default async function middleware(req: NextRequest) {
-  const { pathname, search } = req.nextUrl
-
-  // Skip Next.js internal & API routes
-  if (pathname.startsWith('/api') || pathname.startsWith('/_next')) {
+  // Skip for specific paths
+  if (
+    req.nextUrl.pathname.includes('/api/auth') ||
+    req.nextUrl.pathname.includes('/_next')
+  ) {
     return NextResponse.next()
   }
 
-  /**
-   * Step 1: Handle locale
-   */
-  const localeMatch = pathname.match(/^\/(ar|en)(?:\/|$)/)
-  const locale = localeMatch ? localeMatch[1] : null
+  // Step 1: Handle locale determination
+  const pathname = req.nextUrl.pathname
+  const pathnameHasLocale = /^\/(?:ar|en)(?:\/|$)/.test(pathname)
 
-  if (!locale) {
-    // Redirect to default locale
-    const defaultLocale = 'ar'
+  // Redirect to default locale if no locale in pathname
+  if (!pathnameHasLocale) {
+    const defaultLocale = 'ar' // Default locale
     const newUrl = new URL(`/${defaultLocale}${pathname}`, req.url)
-    newUrl.search = search
+
+    newUrl.search = req.nextUrl.search
+
     return NextResponse.redirect(newUrl)
   }
 
-  /**
-   * Step 3: Auth (optional)
-   */
-  // const session = await auth();
-  // const isPublicPage = PUBLIC_PAGES.some((page) => pathname.includes(page));
-  // if (!session?.user && !isPublicPage) {
-  //   return NextResponse.redirect(new URL(`/${locale}/${version}/login`, req.url));
-  // }
-  // if (session?.user && isPublicPage) {
-  //   return NextResponse.redirect(new URL(`/${locale}/${version}/home`, req.url));
-  // }
+  // Extract locale from pathname
+  const locale = pathname.split('/')[1]
+
+  // Step 2: Check authentication
+  const session = await auth()
+  const isPublicPage = publicPages.some(page => pathname.includes(page))
+
+  if (!session?.user && !isPublicPage) {
+    // Redirect to login page with the current locale
+    return NextResponse.redirect(new URL(`/${locale}/login`, req.url))
+  }
+
+  // If user is authenticated and trying to access login page, redirect to dashboard
+  if (session?.user && isPublicPage) {
+    return NextResponse.redirect(new URL(`/${locale}/home`, req.url))
+  }
+
+  if (session?.user && pathname === `/${locale}`) {
+    return NextResponse.redirect(new URL(`/${locale}/home`, req.url))
+  }
 
   return NextResponse.next()
 }

@@ -1,15 +1,18 @@
+import { auth } from '@/auth'
 import { getLocaleMessages } from '@/i18n/helpers'
 import { queryClient } from '@/lib/client'
+import { cn } from '@/lib/utils'
 import { ShadcnProvider } from '@/providers/shadcn'
 import '@/styles/globals.css'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import type { Metadata } from 'next'
+import { SessionProvider } from 'next-auth/react'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { ToastContainer } from 'react-toastify'
 
-type RootLayoutProps = {
+type DashboardLayoutProps = {
   params: Promise<{ locale: string }>
   children: React.ReactNode
 }
@@ -17,8 +20,9 @@ type RootLayoutProps = {
 export default async function RootLayout({
   children,
   params
-}: Readonly<RootLayoutProps>) {
+}: Readonly<DashboardLayoutProps>) {
   const { locale } = await params
+  const session = await auth()
   const messages = await getMessages({ locale })
 
   return (
@@ -27,18 +31,20 @@ export default async function RootLayout({
       dir={locale === 'ar' ? 'rtl' : 'ltr'}
       suppressHydrationWarning
     >
-      <body>
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          <QueryClientProvider client={queryClient}>
-            <ShadcnProvider>
-              {children}
-              <ToastContainer
-                position={locale === 'ar' ? 'bottom-left' : 'bottom-right'}
-              />
-            </ShadcnProvider>
-            <ReactQueryDevtools initialIsOpen={false} />
-          </QueryClientProvider>
-        </NextIntlClientProvider>
+      <body className={cn('bg-layout-background')}>
+        <SessionProvider session={session}>
+          <NextIntlClientProvider locale={locale} messages={messages}>
+            <QueryClientProvider client={queryClient}>
+              <ShadcnProvider>
+                {children}
+                <ToastContainer
+                  position={locale === 'ar' ? 'bottom-left' : 'bottom-right'}
+                />
+              </ShadcnProvider>
+              <ReactQueryDevtools initialIsOpen={false} />
+            </QueryClientProvider>
+          </NextIntlClientProvider>
+        </SessionProvider>
       </body>
     </html>
   )
@@ -46,7 +52,7 @@ export default async function RootLayout({
 
 export async function generateMetadata({
   params
-}: RootLayoutProps): Promise<Metadata> {
+}: DashboardLayoutProps): Promise<Metadata> {
   const { locale } = await params
   const messages = await getLocaleMessages(locale, 'landing')
 
