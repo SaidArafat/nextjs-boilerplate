@@ -32,9 +32,11 @@ function DropdownMenuTrigger({
   )
 }
 
+const DEFAULT_SIDE_OFFSET = 4
+
 function DropdownMenuContent({
   className,
-  sideOffset = 4,
+  sideOffset = DEFAULT_SIDE_OFFSET,
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Content>) {
   return (

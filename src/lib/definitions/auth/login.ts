@@ -1,5 +1,7 @@
 import { z } from 'zod'
 
+const MIN_PASSWORD_LENGTH = 5
+
 export const createLoginSchema = (t: (key: string) => string) =>
   z.object({
     email: z
@@ -8,7 +10,7 @@ export const createLoginSchema = (t: (key: string) => string) =>
     password: z
       .string()
       .nonempty(t('validation.password-required'))
-      .min(5, t('validation.password-min-length-8'))
+      .min(MIN_PASSWORD_LENGTH, t('validation.password-min-length-8'))
   })
 
 export type LoginForm = z.infer<ReturnType<typeof createLoginSchema>>
