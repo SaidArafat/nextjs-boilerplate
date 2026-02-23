@@ -1,4 +1,5 @@
 'use client'
+
 import { useTheme } from 'next-themes'
 import { useTranslations } from 'next-intl'
 
@@ -25,7 +26,7 @@ export function ModeToggle() {
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="center" className="capitalize cursor-pointer">
+      <DropdownMenuContent align="center" className="cursor-pointer capitalize">
         <DropdownMenuItem
           className="flex items-center justify-between"
           onClick={() => setTheme('light')}

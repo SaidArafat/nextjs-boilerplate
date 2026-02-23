@@ -24,7 +24,7 @@ export async function getLocaleMessages(
   const namespaceArray = Array.isArray(namespaces) ? namespaces : [namespaces]
 
   try {
-    const namespacePromises = namespaceArray.map(async namespace => {
+    const namespacePromises = namespaceArray.map(async (namespace) => {
       const messages = await import(
         `../../messages/${locale}/${namespace}.json`
       )
