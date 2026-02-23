@@ -3,7 +3,7 @@ import createNextIntlPlugin from 'next-intl/plugin'
 
 const nextConfig: NextConfig = {
   env: {
-    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET || '' // fallback only for build-time
+    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET || ''
   },
   reactStrictMode: true,
 
@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'dms-tenant.s3.us-west-2.amazonaws.com'
+        hostname: ''
       }
     ]
   }

@@ -1,4 +1,9 @@
 'use client'
+import { useTheme } from 'next-themes'
+import { useTranslations } from 'next-intl'
+
+import { Monitor, Moon, Sun } from 'lucide-react'
+
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -6,9 +11,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
-import { Monitor, Moon, Sun } from 'lucide-react'
-import { useTranslations } from 'next-intl'
-import { useTheme } from 'next-themes'
 
 export function ModeToggle() {
   const { setTheme } = useTheme()

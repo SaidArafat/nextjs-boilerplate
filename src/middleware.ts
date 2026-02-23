@@ -1,5 +1,6 @@
+import { type NextRequest, NextResponse } from 'next/server'
+
 import { auth } from '@/auth'
-import { NextResponse, type NextRequest } from 'next/server'
 
 const publicPages = [
   'sign-up',
@@ -38,7 +39,7 @@ export default async function middleware(req: NextRequest) {
 
   // Step 2: Check authentication
   const session = await auth()
-  const isPublicPage = publicPages.some(page => pathname.includes(page))
+  const isPublicPage = publicPages.some((page) => pathname.includes(page))
 
   if (!session?.user && !isPublicPage) {
     // Redirect to login page with the current locale

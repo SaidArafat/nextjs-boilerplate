@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Ensure pnpm is available when GitHub Desktop runs this hook
+export PATH="/usr/local/bin:$PATH"
+
+# Format all files
+pnpm prettier --write .
+
+# Add formatted files to staging
+git add .
+
+# Run lint and build
+pnpm lint || exit 1
+pnpm build || exit 1

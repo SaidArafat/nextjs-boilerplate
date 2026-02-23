@@ -1,5 +1,6 @@
+import type { Metadata } from 'next'
+
 import { getLocaleMessages } from '@/i18n/helpers'
-import { Metadata } from 'next'
 
 type HomeProps = {
   params: Promise<{ locale: string }>

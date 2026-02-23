@@ -1,6 +1,7 @@
-import { signIn } from '@/auth'
+import { type NextRequest,NextResponse } from 'next/server'
 import type { SignInResponse } from 'next-auth/react'
-import { NextResponse, type NextRequest } from 'next/server'
+
+import { signIn } from '@/auth'
 
 export async function POST(request: NextRequest) {
   try {

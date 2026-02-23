@@ -1,4 +1,13 @@
 'use client'
+
+import { useState } from 'react'
+
+import { useTranslations } from 'next-intl'
+
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Eye, EyeOff, Loader2 } from 'lucide-react'
+import { useForm } from 'react-hook-form'
+
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -11,11 +20,6 @@ import {
 import { Input } from '@/components/ui/input'
 import { useLogin } from '@/hooks/auth/use-login'
 import { createLoginSchema, type LoginForm } from '@/lib/definitions/auth/login'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Eye, EyeOff, Loader2 } from 'lucide-react'
-import { useTranslations } from 'next-intl'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
@@ -81,7 +85,7 @@ export function LoginForm() {
                   type="button"
                   variant="ghost"
                   size="sm"
-                  className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent cursor-pointer"
+                  className="absolute top-0 right-0 h-full cursor-pointer px-3 py-2 hover:bg-transparent"
                   onClick={() => setShowPassword(!showPassword)}
                   tabIndex={-1}
                 >
@@ -97,7 +101,7 @@ export function LoginForm() {
           )}
         />
 
-        <Button type="submit" className="w-full h-10" disabled={isPending}>
+        <Button type="submit" className="h-10 w-full" disabled={isPending}>
           {isPending ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />

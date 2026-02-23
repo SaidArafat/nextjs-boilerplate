@@ -3,9 +3,9 @@ import { ModeToggle } from './ui/toggle-mode'
 export default function Navbar() {
   return (
     <nav>
-      <ul className="py-4 flex items-center justify-center gap-5 bg-slate-100 dark:bg-black">
+      <ul className="flex items-center justify-center gap-5 bg-slate-100 py-4 dark:bg-black">
         {items.map(({ id, label }) => (
-          <li key={id} className="capitalize cursor-pointer">
+          <li key={id} className="cursor-pointer capitalize">
             {label}
           </li>
         ))}

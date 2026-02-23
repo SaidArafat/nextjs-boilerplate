@@ -1,10 +1,13 @@
-import type { LoginForm } from '@/lib/definitions/auth/login'
-import type { AxiosError } from 'axios'
+import { useState } from 'react'
+
+import { useRouter } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+
+import type { AxiosError } from 'axios'
 import { toast } from 'react-toastify'
+
+import type { LoginForm } from '@/lib/definitions/auth/login'
 
 export function useLogin() {
   const [isPending, setIsPending] = useState(false)

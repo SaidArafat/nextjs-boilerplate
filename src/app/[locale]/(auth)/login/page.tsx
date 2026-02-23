@@ -1,4 +1,5 @@
-import { LoginForm } from '@/components/login-form'
+import type { Metadata } from 'next'
+
 import {
   Card,
   CardContent,
@@ -6,8 +7,8 @@ import {
   CardHeader,
   CardTitle
 } from '@/components/ui/card'
+import { LoginForm } from '@/components/login-form'
 import { getLocaleMessages } from '@/i18n/helpers'
-import type { Metadata } from 'next'
 
 type LoginProps = {
   params: Promise<{ locale: string }>
@@ -19,9 +20,9 @@ export default async function Login({ params }: LoginProps) {
 
   return (
     <main className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
-      <Card className="w-full max-w-sm flex flex-col gap-6">
+      <Card className="flex w-full max-w-sm flex-col gap-6">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">
+          <CardTitle className="text-center text-2xl font-bold">
             {messages['welcome-back']}
           </CardTitle>
           <CardDescription className="text-center">

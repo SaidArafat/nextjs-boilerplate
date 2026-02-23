@@ -1,14 +1,17 @@
-import { auth } from '@/auth'
-import { queryClient } from '@/lib/client'
-import { cn } from '@/lib/utils'
-import { ShadcnProvider } from '@/providers/shadcn'
-import '@/styles/globals.css'
-import { QueryClientProvider } from '@tanstack/react-query'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { SessionProvider } from 'next-auth/react'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
+
+import { QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { ToastContainer } from 'react-toastify'
+
+import { ShadcnProvider } from '@/providers/shadcn'
+import { auth } from '@/auth'
+import { queryClient } from '@/lib/client'
+import { cn } from '@/lib/utils'
+
+import '@/styles/globals.css'
 
 type AuthLayoutProps = {
   params: Promise<{ locale: string }>

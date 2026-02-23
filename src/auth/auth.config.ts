@@ -1,7 +1,12 @@
-import { client } from '@/lib/client'
-import { isAxiosError } from 'axios'
 import type { NextAuthConfig } from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
+
+import { isAxiosError } from 'axios'
+
+import { client } from '@/lib/client'
+
+const MS_PER_SECOND = 1000
+const SESSION_MAX_AGE = 604800 // 7 days in seconds
 
 export const authConfig = {
   pages: {
@@ -69,7 +74,7 @@ export const authConfig = {
   ],
   session: {
     strategy: 'jwt',
-    maxAge: 604800 // 7 days in seconds
+    maxAge: SESSION_MAX_AGE
   },
   cookies: {
     sessionToken: {
@@ -94,7 +99,7 @@ export const authConfig = {
         '/api/auth',
         /\/images\//,
         '/favicon.ico'
-      ].some(path => {
+      ].some((path) => {
         if (typeof path === 'string') {
           return nextUrl.pathname.includes(path)
         }
@@ -117,16 +122,16 @@ export const authConfig = {
         token.token = user.token
         token.role = user.role || 'user'
         // Add issued at time to track token age
-        token.iat = Math.floor(Date.now() / 1000)
+        token.iat = Math.floor(Date.now() / MS_PER_SECOND)
       }
 
       // Validate token hasn't expired (optional)
       const tokenAge =
-        Math.floor(Date.now() / 1000) - ((token.iat as number) || 0)
-      if (tokenAge > 604800) {
+        Math.floor(Date.now() / MS_PER_SECOND) - ((token.iat as number) || 0)
+      if (tokenAge > SESSION_MAX_AGE) {
         // 7 days
-        console.log('Token expired, clearing session')
-        return {}
+        console.warn('Token expired, clearing session')
+        return null
       }
 
       return token
